@@ -1,11 +1,11 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence， motion } from "framer-motion";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { useTranslations } from 'next-intl'
-import { Toaster, toast } from "react-hot-toast";
-import DropDown, { FormType } from "../components/DropDown";
+import { Toaster， toast } from "react-hot-toast";
+import DropDown， { FormType } from "../components/DropDown";
 import Footer from "../components/Footer";
 import Github from "../components/GitHub";
 
@@ -14,14 +14,14 @@ import LoadingDots from "../components/LoadingDots";
 import ResizablePanel from "../components/ResizablePanel";
 import { marked } from "marked";
 
-const Home: NextPage = () => {
+const 主页: NextPage = () => {
   const t = useTranslations('Index')
 
-  const [loading, setLoading] = useState(false);
-  const [chat, setChat] = useState("");
-  const [form, setForm] = useState<FormType>("paragraphForm");
-  const [api_key, setAPIKey] = useState("")
-  const [generatedChat, setGeneratedChat] = useState<String>("");
+  const [loading， setLoading] = useState(false);
+  const [chat， setChat] = useState("");
+  const [form， setForm] = useState<FormType>("paragraphForm");
+  const [api_key， setAPIKey] = useState("")
+  const [generatedChat， setGeneratedChat] = useState<String>("");
 
   console.log("Streamed response: ", generatedChat);
 
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
       `${chat}`
       : `${chat}`;
 
-  const useUserKey = process.env.NEXT_PUBLIC_USE_USER_KEY === "true" ? true : false;
+  const useUserKey = process.env。NEXT_PUBLIC_USE_USER_KEY === "true" ? true : false;
 
   const generateChat = async (e: any) => {
     e.preventDefault();
@@ -47,25 +47,25 @@ const Home: NextPage = () => {
       return
     }
     const response = useUserKey ?
-      await fetch("/api/generate", {
-        method: "POST",
+      await fetch("/api/generate"， {
+        method: "POST"，
         headers: {
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"，
+        }，
         body: JSON.stringify({
-          prompt,
-          api_key,
-        }),
+          prompt，
+          api_key，
+        })，
       })
     :
-      await fetch("/api/generate", {
-        method: "POST",
+      await fetch("/api/generate"， {
+        method: "POST"，
         headers: {
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"，
+        }，
         body: JSON.stringify({
-          prompt,
-        }),
+          prompt，
+        })，
       })
 
     console.log("Edge function returned.");
@@ -87,9 +87,9 @@ const Home: NextPage = () => {
     let done = false;
 
     while (!done) {
-      const { value, done: doneReading } = await reader.read();
+      const { value， done: doneReading } = await reader.read();
       done = doneReading;
-      const chunkValue = decoder.decode(value).replace("<|im_end|>", "");
+      const chunkValue = decoder.decode(value)。replace("<|im_end|>"， "");
       setGeneratedChat((prev) => prev + chunkValue);
     }
 
@@ -138,7 +138,7 @@ const Home: NextPage = () => {
               </div>
               <input
                   value={api_key}
-                  onChange={(e) => setAPIKey(e.target.value)}
+                  onChange={(e) => setAPIKey(e.target。value)}
                   className="w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-black focus:ring-black p-2"
                   placeholder={
                     t('openaiApiKeyPlaceholder')
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
 
           <textarea
             value={chat}
-            onChange={(e) => setChat(e.target.value)}
+            onChange={(e) => setChat(e.target。value)}
             rows={4}
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-2"
             placeholder={
@@ -233,9 +233,9 @@ const Home: NextPage = () => {
                     <div
                       className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
                       onClick={() => {
-                        navigator.clipboard.writeText(generatedChat.trim());
-                        toast("已复制内容", {
-                          icon: "✂️",
+                        navigator.clipboard。writeText(generatedChat.trim());
+                        toast("已复制内容"， {
+                          icon: "✂️"，
                         });
                       }}
                     >
@@ -243,11 +243,11 @@ const Home: NextPage = () => {
                       <p
                         className="sty1 markdown-body"
                         dangerouslySetInnerHTML={{
-                          __html: marked(generatedChat.toString(), {
-                            gfm: true,
-                            breaks: true,
+                          __html: marked(generatedChat.toString()， {
+                            gfm: true，
+                            breaks: true，
                             smartypants: true
-                          }),
+                          })，
                         }}
                       ></p>
                     </div>
@@ -260,21 +260,20 @@ const Home: NextPage = () => {
         
          <p className="text-slate-500 items-center">公平公正，为民请命</p>
         <br/>  
-         <p className="text-slate-500 items-center">使用人数较多有时会慢，如刷新没反应，请加群反馈。欢迎加群交流，一起同行。</p>
       </main>
       <Footer />
     </div>
   );
 };
 
-export default Home;
+export 默认 Home;
 
 export function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
       messages: {
-        ...require(`../messages/${locale}.json`),
-      },
-    },
+        ...require(`../messages/${locale}.json`)，
+      }，
+    }，
   }
 }
